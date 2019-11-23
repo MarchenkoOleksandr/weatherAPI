@@ -1,0 +1,12 @@
+body {
+    background-color: #FFFFFF;
+}
+
+h3 {
+    text-align: left;
+}
+
+#text {
+    text-align: justify;
+    margin: 2%;
+}
