@@ -10,8 +10,6 @@ use GuzzleHttp\Client;
  */
 class OpenWeatherMapForecast extends BaseForecast
 {
-//    $response2 = $client->get('http://api.openweathermap.org/data/2.5/weather?units=metric&APPID=3108af8e2bbc6b946ddf01a1908b8a83&q=' . $request->get('city'));
-
     /**
      * OpenWeatherMapForecast constructor.
      * @param $country
@@ -19,7 +17,7 @@ class OpenWeatherMapForecast extends BaseForecast
      */
     public function __construct($country, $city)
     {
-        $this->apiKey               = '3108af8e2bbc6b946ddf01a1908b8a83';
+        $this->apiKey               = env('KEY_FOR_OPEN_WEATHER_MAP');
         $this->currentWeatherUrl    = "http://api.openweathermap.org/data/2.5/weather?units=metric&APPID={$this->apiKey}&q={$city},{$country}";
     }
 

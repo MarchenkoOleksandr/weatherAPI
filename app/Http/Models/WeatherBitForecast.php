@@ -10,8 +10,6 @@ use GuzzleHttp\Client;
  */
 class WeatherBitForecast extends BaseForecast
 {
-//$response3 = $client->get('http://api.weatherbit.io/v2.0/current?key=fcc38a8cf4424de49640ea6375c90917&country=' . $request->get('country') . '&city=' . $request->get('city'));
-
     /**
      * WeatherBitForecast constructor.
      * @param $country
@@ -19,7 +17,7 @@ class WeatherBitForecast extends BaseForecast
      */
     public function __construct($country, $city)
     {
-        $this->apiKey               = 'fcc38a8cf4424de49640ea6375c90917';
+        $this->apiKey               = env('KEY_FOR_WEATHER_BIT');
         $this->currentWeatherUrl    = "http://api.weatherbit.io/v2.0/current?key={$this->apiKey}&country={$country}&city={$city}";
     }
 
