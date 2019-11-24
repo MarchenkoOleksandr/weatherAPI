@@ -7,10 +7,9 @@
             <h5 class="center-align">Get an accurate weather forecast</h5>
             <div class="row">
                 <select class="select" id="country" name="country">
-                    <option value="" disabled selected>Choose a country</option>
-                    <option value="UK">Great Britain</option>
-                    <option value="UA">Ukraine</option>
-                    <option value="US">USA</option>
+                    @foreach ($countriesList as $key => $value)
+                        <option value="{{$key}}">{{$value}}</option>
+                    @endforeach
                 </select>
             </div>
 
@@ -38,7 +37,7 @@
         @if(isset($emptyResponse))
             <p class="red-text">Incorrect parameters: all fields are required!</p>
         @else
-            <h5 class="center-align">Weather forecast for {{ $city }}</h5>
+            <h5 class="center-align">Current average temperature in {{ $city }}</h5>
             <p>Average temperature: {{ $avg }}</p>
             <p>Successful responses: {{ $total - $errorsCounter }} from {{ $total }}</p>
             <p>Request Execution Time: {{ $time }}</p>
