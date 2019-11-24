@@ -24,6 +24,8 @@ class MainController extends Controller
      */
     public function index(Request $request)
     {
+        $countriesList = file_get_contents(env('DOCUMENT_ROOT') . '/database/countries.json');
+
         if ($request->isMethod('POST')) {
             if ($this->isEmptyRequest($request->get('country'), $request->get('city'))) {
                 return view('index', [
@@ -55,6 +57,7 @@ class MainController extends Controller
 
             return view('index', [
                 'isPostMethod'  => $request->isMethod('POST'),
+                'countriesList' => json_decode($countriesList, true),
                 'city'          => $request->get('city'),
                 'avg'           => $this->getAvgTemperature($temperatures),
                 'total'         => count($weatherClasses),
@@ -64,7 +67,8 @@ class MainController extends Controller
         }
 
         return view('index', [
-            'isPostMethod' => $request->isMethod('POST')
+            'isPostMethod' => $request->isMethod('POST'),
+            'countriesList' => json_decode($countriesList, true)
         ]);
     }
 
