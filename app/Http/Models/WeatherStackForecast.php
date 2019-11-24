@@ -10,7 +10,6 @@ use GuzzleHttp\Client;
  */
 class WeatherStackForecast extends BaseForecast
 {
-    //http://api.weatherstack.com/current?access_key=9d0c560c445bb87487e69e2ff625bef4&query=' . $request->get('city')
     /**
      * WeatherStackForecast constructor.
      * @param $country
@@ -18,7 +17,7 @@ class WeatherStackForecast extends BaseForecast
      */
     public function __construct($country, $city)
     {
-        $this->apiKey               = '9d0c560c445bb87487e69e2ff625bef4';
+        $this->apiKey               = env('KEY_FOR_WEATHER_STACK');
         $this->currentWeatherUrl    = "http://api.weatherstack.com/current?access_key={$this->apiKey}&units=m&query={$city}";
     }
 
