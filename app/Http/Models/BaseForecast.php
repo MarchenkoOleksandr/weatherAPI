@@ -12,8 +12,6 @@ abstract class BaseForecast
 {
     protected $currentWeatherUrl;
     protected $apiKey;
-    protected $country;
-    protected $city;
     protected $response;
 
     abstract public function getResponseBody(Client $client) : void;

@@ -16,10 +16,10 @@ class WeatherStackForecast extends BaseForecast
      * @param $country
      * @param $city
      */
-    public function __construct($country = '', $city = '')
+    public function __construct($country, $city)
     {
-        $this->apiKey = '9d0c560c445bb87487e69e2ff625bef4';
-        $this->currentWeatherUrl = "http://api.weatherstack.com/current?access_key={$this->apiKey}&units=m&query={$city}";
+        $this->apiKey               = '9d0c560c445bb87487e69e2ff625bef4';
+        $this->currentWeatherUrl    = "http://api.weatherstack.com/current?access_key={$this->apiKey}&units=m&query={$city}";
     }
 
     /**
@@ -27,7 +27,7 @@ class WeatherStackForecast extends BaseForecast
      */
     public function getResponseBody(Client $client) : void
     {
-        $response = $client->get($this->currentWeatherUrl);
+        $response       = $client->get($this->currentWeatherUrl);
         $this->response = json_decode($response->getBody(), true);
     }
 
