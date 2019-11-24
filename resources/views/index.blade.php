@@ -7,7 +7,7 @@
             <h5 class="center-align">Get an accurate weather forecast</h5>
             <div class="row">
                 <select class="select" id="country" name="country">
-                    <option value="" disabled selected>Choose your country</option>
+                    <option value="" disabled selected>Choose a country</option>
                     <option value="UK">Great Britain</option>
                     <option value="UA">Ukraine</option>
                     <option value="US">USA</option>
@@ -17,8 +17,8 @@
             <div class="row">
                 <div class="input-field col s12 m12 l12">
                     <input id="city" name="city" type="text" class="validate" required>
-                    <label for="city">City</label>
-                    <span class="helper-text" data-error="The field is required" data-success="right"></span>
+                    <label for="city">Write a name of a city</label>
+                    <span class="helper-text" data-error="The field is required"></span>
                 </div>
             </div>
 
@@ -32,11 +32,19 @@
     </form>
 </div>
 
-@if ($method === "POST")
-    <p>{{ $data1 }}</p>
-    <p>{{ $data2 }}</p>
-    <p>{{ $data3 }}</p>
-    <p>{{ $avg }}</p>
+@if ($isPostMethod)
+<div class="row">
+    <div class="col s6 offset-s3">
+        @if(isset($emptyResponse))
+            <p class="red-text">Incorrect parameters: all fields are required!</p>
+        @else
+            <h5 class="center-align">Weather forecast for {{ $city }}</h5>
+            <p>Average temperature: {{ $avg }}</p>
+            <p>Successful responses: {{ $total - $errorsCounter }} from {{ $total }}</p>
+            <p>Request Execution Time: {{ $time }}</p>
+        @endif
+    </div>
+</div>
 @endif
 
 @include('sections.endbody')
