@@ -1,30 +1,27 @@
 <?php
 
-namespace App\Http\Models;
+namespace App\Http\Models\Forecasts;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Class WeatherBitForecast
+ * Class OpenWeatherMapForecast
  * @package App\Http\Models
  */
-class WeatherBitForecast extends BaseForecast
+class OpenWeatherMapForecast extends BaseForecast
 {
     /**
-     * WeatherBitForecast constructor.
+     * OpenWeatherMapForecast constructor.
      * @param $country
      * @param $city
      */
     public function __construct($country, $city)
     {
-        $this->apiKey               = env('KEY_FOR_WEATHER_BIT');
-        $this->currentWeatherUrl    = "http://api.weatherbit.io/v2.0/current?key={$this->apiKey}&country={$country}&city={$city}";
+        $this->apiKey               = env('KEY_FOR_OPEN_WEATHER_MAP');
+        $this->currentWeatherUrl    = "http://api.openweathermap.org/data/2.5/weather?units=metric&APPID={$this->apiKey}&q={$city},{$country}";
     }
 
-    /**
-     * @param Client $client
-     */
     public function getResponseBody(Client $client): void
     {
         try {
@@ -36,11 +33,17 @@ class WeatherBitForecast extends BaseForecast
         }
     }
 
+    /**
+     * @return float
+     */
     public function getCurrentTemperature(): float
     {
-        return $this->response['data'][0]['temp'] ?? null;
+        return $this->response['main']['temp'] ?? null;
     }
 
+    /**
+     * @return bool
+     */
     public function hasErrors(): bool
     {
         return !isset($this->response);

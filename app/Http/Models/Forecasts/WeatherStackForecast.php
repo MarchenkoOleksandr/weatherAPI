@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Models;
+namespace App\Http\Models\Forecasts;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
