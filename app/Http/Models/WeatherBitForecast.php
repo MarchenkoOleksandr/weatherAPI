@@ -3,6 +3,7 @@
 namespace App\Http\Models;
 
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class WeatherBitForecast
@@ -26,8 +27,13 @@ class WeatherBitForecast extends BaseForecast
      */
     public function getResponseBody(Client $client): void
     {
-        $response       = $client->get($this->currentWeatherUrl);
-        $this->response = json_decode($response->getBody(), true);
+        try {
+            $response       = $client->get($this->currentWeatherUrl);
+            $this->response = json_decode($response->getBody(), true);
+        } catch (\Exception $ex) {
+            $this->response = null;
+            Log::error($ex);
+        }
     }
 
     public function getCurrentTemperature(): float
