@@ -15,7 +15,7 @@
 
             <div class="row">
                 <div class="input-field col s12 m12 l12">
-                    <input id="city" name="city" type="text" class="validate" required>
+                    <input id="city" name="city" type="text" class="validate">
                     <label for="city">Write a name of a city</label>
                     <span class="helper-text" data-error="The field is required"></span>
                 </div>
@@ -32,18 +32,18 @@
 </div>
 
 @if ($isPostMethod)
-<div class="row">
-    <div class="col s6 offset-s3">
-        @if(isset($emptyResponse))
-            <p class="red-text">Incorrect parameters: all fields are required!</p>
-        @else
-            <h5 class="center-align">Current average temperature in {{ $city }}</h5>
-            <p>Average temperature: {{ $avg }}</p>
-            <p>Successful responses: {{ $total - $errorsCounter }} from {{ $total }}</p>
-            <p>Request Execution Time: {{ $time }}</p>
-        @endif
+    <div class="row">
+        <div class="col s6 offset-s3">
+            @if($emptyResponse)
+                <p class="red-text">Incorrect parameters: all fields are required!</p>
+            @else
+                <h5 class="center-align">Current average temperature in {{ $city }}</h5>
+                <p>Average temperature: {{ $result['avg'] }}</p>
+                <p>Successful responses: {{ $result['total'] - $result['errorsCounter'] }} from {{ $result['total'] }}</p>
+                <p>Request execution time: {{ $time }}</p>
+            @endif
+        </div>
     </div>
-</div>
 @endif
 
 @include('sections.endbody')
