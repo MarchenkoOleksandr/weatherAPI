@@ -14,6 +14,8 @@ use App\Http\Models\Forecasts\WeatherStackForecast;
 class BaseRequest
 {
     protected $weatherClasses = [];
+    protected $result         = [];
+    protected $requestTime;
 
     /**
      * BaseRequest constructor.

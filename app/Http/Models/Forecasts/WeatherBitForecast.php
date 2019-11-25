@@ -36,11 +36,14 @@ class WeatherBitForecast extends BaseForecast
         }
     }
 
-    public function getCurrentTemperature(): float
+    public function getCurrentTemperature()
     {
         return $this->response['data'][0]['temp'] ?? null;
     }
 
+    /**
+     * @return bool
+     */
     public function hasErrors(): bool
     {
         return !isset($this->response);

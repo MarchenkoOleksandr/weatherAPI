@@ -33,10 +33,7 @@ class OpenWeatherMapForecast extends BaseForecast
         }
     }
 
-    /**
-     * @return float
-     */
-    public function getCurrentTemperature(): float
+    public function getCurrentTemperature()
     {
         return $this->response['main']['temp'] ?? null;
     }

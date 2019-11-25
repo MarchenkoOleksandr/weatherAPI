@@ -6,7 +6,7 @@
         <div class="card-panel hoverable col s6 offset-s3 yellow lighten-3">
             <h5 class="center-align">Get an accurate weather forecast</h5>
             <div class="row">
-                <select class="select" id="country" name="country">
+                <select class="select" id="country" name="country" required>
                     @foreach ($countriesList as $key => $value)
                         <option value="{{$key}}">{{$value}}</option>
                     @endforeach
@@ -15,7 +15,7 @@
 
             <div class="row">
                 <div class="input-field col s12 m12 l12">
-                    <input id="city" name="city" type="text" class="validate">
+                    <input id="city" name="city" type="text" class="validate" required>
                     <label for="city">Write a name of a city</label>
                     <span class="helper-text" data-error="The field is required"></span>
                 </div>

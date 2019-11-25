@@ -16,7 +16,7 @@ abstract class BaseForecast
 
     abstract public function getResponseBody(Client $client) : void;
 
-    abstract public function getCurrentTemperature() : float;
+    abstract public function getCurrentTemperature();
 
     abstract public function hasErrors() : bool;
 }
