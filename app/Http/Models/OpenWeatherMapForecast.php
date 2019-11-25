@@ -3,6 +3,7 @@
 namespace App\Http\Models;
 
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class OpenWeatherMapForecast
@@ -28,6 +29,7 @@ class OpenWeatherMapForecast extends BaseForecast
             $this->response = json_decode($response->getBody(), true);
         } catch (\Exception $ex) {
             $this->response = null;
+            Log::error($ex);
         }
     }
 

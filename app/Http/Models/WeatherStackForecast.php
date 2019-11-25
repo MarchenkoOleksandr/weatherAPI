@@ -3,6 +3,7 @@
 namespace App\Http\Models;
 
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class WeatherStackForecast
@@ -28,6 +29,10 @@ class WeatherStackForecast extends BaseForecast
     {
         $response       = $client->get($this->currentWeatherUrl);
         $this->response = json_decode($response->getBody(), true);
+
+        if (isset($this->response['error'])) {
+            Log::error($this->response['error']);
+        }
     }
 
     /**
