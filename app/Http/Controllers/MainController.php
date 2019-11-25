@@ -30,6 +30,7 @@ class MainController extends Controller
             if ($this->isEmptyRequest($request->get('country'), $request->get('city'))) {
                 return view('index', [
                     'isPostMethod'  => $request->isMethod('POST'),
+                    'countriesList' => json_decode($countriesList, true),
                     'emptyResponse' => true
                 ]);
             }
