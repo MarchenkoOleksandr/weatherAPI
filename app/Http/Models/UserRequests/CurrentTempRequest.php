@@ -138,7 +138,7 @@ class CurrentTempRequest extends BaseRequest
 
     private function saveToRedis(\Predis\Client $redisClient) : void
     {
-        if (count($this->temperatures) > $this->errorsCounter) {
+        if ($redisClient->isConnected() && count($this->temperatures) > $this->errorsCounter) {
             $redisClient->set("{$this->country}:{$this->city}",
                 json_encode($this->result), "EX", env('REDIS_TIME_EXPIRE'));
         }
