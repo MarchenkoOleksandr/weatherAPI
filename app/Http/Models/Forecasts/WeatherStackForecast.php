@@ -35,10 +35,7 @@ class WeatherStackForecast extends BaseForecast
         }
     }
 
-    /**
-     * @return float
-     */
-    public function getCurrentTemperature(): float
+    public function getCurrentTemperature()
     {
         return $this->response['current']['temperature'] ?? null;
     }

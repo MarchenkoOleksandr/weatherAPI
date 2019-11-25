@@ -22,14 +22,13 @@ class MainController extends Controller
     public function index(Request $request)
     {
         $currentTemp = new CurrentTempRequest($request->get('country'), $request->get('city'));
-        $timeStart   = microtime(true);
 
         if ($request->isMethod('POST')) {
-            $currentTemp->makeApiRequest();
+            $currentTemp->makeRequest();
 
-            return view('index', $currentTemp->getDataForTemplate(true, $timeStart));
+            return view('index', $currentTemp->prepareDataForTemplate(true));
         }
 
-        return view('index', $currentTemp->getDataForTemplate(false, $timeStart));
+        return view('index', $currentTemp->prepareDataForTemplate(false));
     }
 }

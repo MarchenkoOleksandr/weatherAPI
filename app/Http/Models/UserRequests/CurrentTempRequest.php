@@ -33,7 +33,24 @@ class CurrentTempRequest extends BaseRequest
         $this->countriesList = file_get_contents(env('DOCUMENT_ROOT') . '/database/countries.json');
     }
 
-    public function makeApiRequest()
+    public function makeRequest() : void
+    {
+        $startTime    = microtime(true);
+        $redisClient  = new \Predis\Client();
+        $this->result = $this->makeRedisRequest($redisClient);
+
+        if (empty($this->result)) {
+            $this->result = $this->makeApiRequest();
+            $this->saveToRedis($redisClient);
+        }
+
+        $this->requestTime = round((microtime(true) - $startTime) * 1000);
+    }
+
+    /**
+     * @return array
+     */
+    public function makeApiRequest() : array
     {
         $client = new Client();
 
@@ -47,6 +64,26 @@ class CurrentTempRequest extends BaseRequest
                 Log::warning("Failed to retrieve temperature for {$this->city} ({$this->country})");
             }
         }
+
+        return array(
+            'avg'           => $this->getAvgTemperature(),
+            'total'         => count($this->weatherClasses),
+            'errorsCounter' => $this->errorsCounter
+        );
+    }
+
+    /**
+     * @param \Predis\Client $redisClient
+     *
+     * @return array
+     */
+    public function makeRedisRequest(\Predis\Client $redisClient) : array
+    {
+        if ($redisClient->isConnected() && $redisResult = $redisClient->get("{$this->country}:{$this->city}")) {
+            return json_decode($redisResult, true);
+        }
+
+        return array();
     }
 
     /**
@@ -77,11 +114,10 @@ class CurrentTempRequest extends BaseRequest
 
     /**
      * @param bool $isPostMethod
-     * @param      $startTime
      *
      * @return array
      */
-    public function getDataForTemplate(bool $isPostMethod, $startTime): array
+    public function prepareDataForTemplate(bool $isPostMethod): array
     {
         $data = [];
 
@@ -94,14 +130,17 @@ class CurrentTempRequest extends BaseRequest
             return $data;
         }
 
-        $data['result'] = [
-            'avg'           => $this->getAvgTemperature(),
-            'total'         => count($this->weatherClasses),
-            'errorsCounter' => $this->errorsCounter,
-        ];
-
-        $data['time'] = round((microtime(true) - $startTime) * 1000) . ' milliseconds';
+        $data['result'] = $this->result;
+        $data['time']   = $this->requestTime . ' milliseconds';
 
         return $data;
+    }
+
+    private function saveToRedis(\Predis\Client $redisClient) : void
+    {
+        if (count($this->temperatures) > $this->errorsCounter) {
+            $redisClient->set("{$this->country}:{$this->city}",
+                json_encode($this->result), "EX", env('REDIS_TIME_EXPIRE'));
+        }
     }
 }
