@@ -3,14 +3,16 @@
     <form action="{{ action('MainController@index') }}" method="POST">
         {{ csrf_field() }}
 
-        <div class="card-panel hoverable col s6 offset-s3 yellow lighten-3">
+        <div class="card-panel hoverable col s12 m12 l6 offset-l3 yellow lighten-3">
             <h5 class="center-align">Get an accurate weather forecast</h5>
             <div class="row">
-                <select class="select" id="country" name="country" required>
-                    @foreach ($countriesList as $key => $value)
-                        <option value="{{$key}}">{{$value}}</option>
-                    @endforeach
-                </select>
+                <div class="input-field col s12 m12 l12">
+                    <select class="select" id="country" name="country" required>
+                        @foreach ($countriesList as $key => $value)
+                            <option value="{{$key}}">{{$value}}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
 
             <div class="row">
